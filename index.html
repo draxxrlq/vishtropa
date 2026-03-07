@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>te amo emy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-red: #5c0000; 
+            --player-bg: rgba(0, 0, 0, 0.45); 
+            --tamanho-mural: 180px; 
+            --platinum: #e5e4e2;
+            --platinum-bright: #ffffff;
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            width: 100%; height: 100%;
+            overflow: hidden;
+            background-color: var(--bg-red);
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: var(--platinum);
+        }
+
+        /* PADRÃO DE FUNDO (BOIZINHO E CORAÇÕES) */
+        .background-pattern {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 2;
+            pointer-events: none;
+            opacity: 0.1; /* Bem sutil para não atrapalhar a visão das fotos */
+            background-image: 
+                url('https://upload.wikimedia.org/wikipedia/pt/thumb/0/02/Logo_Garantido.png/200px-Logo_Garantido.png'),
+                radial-gradient(circle, #fff 10%, transparent 10%);
+            background-size: 120px, 80px 80px;
+            background-repeat: repeat;
+        }
+
+        /* Mural de Fundo */
+        .mural-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            display: flex;
+            justify-content: space-around;
+            z-index: 1;
+            opacity: 0.85; 
+        }
+
+        .column {
+            display: flex;
+            flex-direction: column;
+            width: var(--tamanho-mural);
+            animation: scrollUp 40s linear infinite;
+        }
+
+        .column.offset {
+            animation: scrollDown 45s linear infinite;
+        }
+
+        .column img, .column video {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            margin: 10px 0;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+            background: #222;    
+        }
+
+        @keyframes scrollUp {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-50%); }
+        }
+
+        @keyframes scrollDown {
+            0% { transform: translateY(-50%); }
+            100% { transform: translateY(0); }
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 5;
+            background: radial-gradient(circle, transparent 10%, rgba(0,0,0,0.7) 100%);
+            pointer-events: none;
+        }
+
+        .main-content {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .center-photo {
+            width: 350px;
+            height: 350px;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.8);
+            margin-bottom: 20px;
+            border: none;
+        }
+
+        .spotify-player {
+            width: 350px; 
+            background: var(--player-bg);
+            padding: 20px; 
+            border-radius: 25px;
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255,255,255,0.15);
+            text-align: center;
+            box-sizing: border-box; 
+        }
+
+        .song-info h3 { 
+            margin: 0; 
+            font-size: 1.6rem; 
+            color: var(--platinum-bright);
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+        }
+
+        .song-info p { 
+            margin: 5px 0 15px; 
+            color: #ddd; 
+            font-size: 1rem; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            color: var(--platinum);
+        }
+
+        .progress-bar {
+            flex-grow: 1;
+            height: 5px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: #ff0000; 
+            box-shadow: 0 0 10px #ff0000;
+            border-radius: 5px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .btn-play {
+            background: var(--platinum);
+            color: black;
+            width: 65px; height: 65px; 
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 1.8rem;
+            transition: transform 0.2s, background 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .btn-play:hover {
+            transform: scale(1.1);
+            background: #ffffff;
+        }
+
+        #lyrics {
+            margin-top: 20px;
+            min-height: 50px;
+            font-size: 1.3rem; 
+            font-weight: 800;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            line-height: 1.2;
+        }
+
+        #hearts {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 15;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Camada de símbolos no fundo -->
+    <div class="background-pattern"></div>
+
+    <div class="mural-container">
+        <div class="column">
+            <img src="gem/a.jpeg" alt="">
+            <img src="gem/2.jpeg" alt="">
+            <video class="mural-video" src="vid/7.mp4" autoplay muted loop playsinline></video>
+            <img src="gem/3.jpeg" alt="">
+            <img src="gem/0.jpeg" alt="">
+            <img src="gem/5.jpeg" alt="">
+            <video class="mural-video" src="vid/7.mp4" autoplay muted loop playsinline></video>
+            <img src="gem/6.jpeg" alt="">
+        </div>
+
+        <div class="column offset">
+            <img src="gem/3.jpeg" alt="">
+            <img src="gem/0.jpeg" alt="">
+            <img src="gem/5.jpeg" alt="">
+            <video class="mural-video" src="vid/7.mp4" autoplay muted loop playsinline></video>
+            <img src="gem/6.jpeg" alt="">
+            <img src="gem/a.jpeg" alt="">
+            <img src="gem/2.jpeg" alt="">
+            <video class="mural-video" src="vid/7.mp4" autoplay muted loop playsinline></video>
+        </div>
+    </div>
+
+    <div class="overlay"></div>
+    <div id="hearts"></div>
+
+    <div class="main-content">
+        <img src="./gem/4.jpeg" class="center-photo" alt="Capa">
+
+        <div class="spotify-player">
+            <div class="song-info">
+                <h3>Vermelhou Geral</h3>
+                <p>Boi Bumbá Garantido</p>
+            </div>
+
+            <div class="progress-container">
+                <span id="current-time">0:00</span>
+                <div class="progress-bar"><div class="progress-fill" id="p-fill"></div></div>
+                <span>3:34</span>
+            </div>
+
+            <div class="controls">
+                <div class="btn-play" id="play-btn"><i class="fas fa-play" id="p-icon"></i></div>
+            </div>
+
+            <div id="lyrics"></div>
+        </div>
+    </div>
+
+    <audio id="audio" src="./mus/vermelhou geral.mp3"></audio>
+
+    <script>
+        const audio = document.getElementById('audio');
+        const playBtn = document.getElementById('play-btn');
+        const pIcon = document.getElementById('p-icon');
+        const pFill = document.getElementById('p-fill');
+        const lyricsEl = document.getElementById('lyrics');
+        const timeEl = document.getElementById('current-time');
+
+        // FUNÇÃO PARA VÍDEO SEMPRE PLAY (MUDO PARA FUNCIONAR AUTOMÁTICO)
+        function manageVideos() {
+            const videos = document.querySelectorAll('.mural-video');
+            videos.forEach(v => {
+                v.muted = true; // Necessário para autoplay no Chrome/Mobile
+                const playPromise = v.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(() => {
+                        // Tenta tocar novamente se falhar
+                        v.play();
+                    });
+                }
+            });
+        }
+        
+        window.addEventListener('load', manageVideos);
+        setInterval(manageVideos, 2000); // Garante que fiquem tocando
+
+        const lyricsData = [
+            { time: 0.00, text: "..." },
+            { time: 12.54, text: "O maior amor do mundo és tu" },
+            { time: 15.20, text: "A paixão da minha vida és tu" },
+            { time: 17.42, text: "Meu amor" },
+            { time: 19.96, text: "Vermelhou" },
+            { time: 22.68, text: "O calor que me aquece és tu" },
+            { time: 25.40, text: "Essa luz que me ilumina és tu" },
+            { time: 27.66, text: "Meu amor" },
+            { time: 30.20, text: "Vermelhou" },
+            { time: 31.79, text: "Quem me faz seguir em frente és tu" },
+            { time: 35.58, text: "Quem me dá força e coragem és tu" },
+            { time: 37.84, text: "Meu amor" },
+            { time: 40.40, text: "Vermelhou" },
+            { time: 43.08, text: "Quem só quer me ver sorrindo és tu" },
+            { time: 45.86, text: "A minha felicidade és tu" },
+            { time: 48.08, text: "Meu amor" },
+            { time: 50.60, text: "Vermelhou" },
+            { time: 52.22, text: "Ao te olhar" },
+            { time: 53.64, text: "Do meu melhor olhar, eu te filmei" },
+            { time: 56.06, text: "Revelando o meu segredo" },
+            { time: 58.24, text: "Meu amor" },
+            { time: 60.82, text: "Vermelhou" },
+            { time: 62.42, text: "Me imaginei" },
+            { time: 63.86, text: "Na cena do meu filme, tu e eu" },
+            { time: 66.26, text: "Nos amando ardentemente" },
+            { time: 68.48, text: "Meu amor" },
+            { time: 71.00, text: "Vermelhou" },
+            { time: 72.96, text: "O céu, com toda sua luz e cor" },
+            { time: 75.95, text: "O mar, com todo o seu esplendor" },
+            { time: 79.02, text: "O Sol com o seu calor, a brisa, a flor" },
+            { time: 83.16, text: "Não é igual ao teu interior" },
+            { time: 86.72, text: "Onde o mundo é mais bonito" },
+            { time: 88.92, text: "Meu amor" },
+            { time: 91.46, text: "Vermelhou" },
+            { time: 93.88, text: "Palmas para quem ama" },
+            { time: 96.48, text: "Abaixo a quem desama" },
+            { time: 98.96, text: "Viva quem ama a vida" },
+            { time: 101.50, text: "O amor sem despedida" },
+            { time: 104.08, text: "Palmas pra esse amor" },
+            { time: 106.78, text: "Que nós tanto desejamos" },
+            { time: 109.34, text: "Meu amor (meu amor)" },
+            { time: 114.72, text: "Meu coração és tu" },
+            { time: 117.36, text: "O meu poder és tu" },
+            { time: 119.96, text: "O meu desejo és tu" },
+            { time: 122.50, text: "Até meu fogo és tu" },
+            { time: 124.96, text: "Minha fúria, minha guerra" },
+            { time: 127.84, text: "Meu sangue és tu" },
+            { time: 132.30, text: "Vermelhou geral" }
+        ];
+
+        playBtn.addEventListener('click', () => {
+            if (audio.paused) { 
+                audio.play(); 
+                pIcon.classList.replace('fa-play', 'fa-pause'); 
+            } else { 
+                audio.pause(); 
+                pIcon.classList.replace('fa-pause', 'fa-play'); 
+            }
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            const pct = (audio.currentTime / audio.duration) * 100;
+            pFill.style.width = pct + '%';
+            let m = Math.floor(audio.currentTime / 60);
+            let s = Math.floor(audio.currentTime % 60);
+            timeEl.innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
+            const active = lyricsData.reduce((prev, curr) => (audio.currentTime >= curr.time ? curr : prev), lyricsData[0]);
+            if(active) lyricsEl.innerText = active.text;
+        });
+
+        // CHUVA DE CORAÇÕES APENAS
+        function createHearts() {
+            const container = document.getElementById('hearts');
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤️';
+            heart.style.position = 'fixed';
+            heart.style.bottom = '-50px';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (Math.random() * 25 + 15) + 'px';
+            heart.style.transition = `transform ${Math.random() * 3 + 4}s linear, opacity 6s`;
+            heart.style.opacity = '0.8';
+            heart.style.color = '#ff0000';
+            
+            container.appendChild(heart);
+
+            setTimeout(() => {
+                heart.style.transform = `translateY(-115vh) rotate(${Math.random() * 360}deg)`;
+                heart.style.opacity = '0';
+            }, 50);
+
+            setTimeout(() => heart.remove(), 7000);
+        }
+
+        // Frequência bem alta (250ms = 4 corações por segundo)
+        setInterval(createHearts, 250);
+    </script>
+</body>
+</html>
