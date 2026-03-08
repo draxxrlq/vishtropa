@@ -99,23 +99,21 @@
             height: 100vh;
         }
 
-        /* FOTO CENTRAL REDUZIDA */
         .center-photo {
-            width: 250px;
-            height: 250px;
+            width: 350px;
+            height: 350px;
             aspect-ratio: 1 / 1;
             object-fit: cover;
             border-radius: 20px;
             box-shadow: 0 25px 60px rgba(0,0,0,0.8);
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             border: none;
         }
 
-        /* PLAYER REDUZIDO */
         .spotify-player {
-            width: 280px; 
+            width: 350px; 
             background: var(--player-bg);
-            padding: 15px; 
+            padding: 20px; 
             border-radius: 25px;
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
@@ -126,15 +124,15 @@
 
         .song-info h3 { 
             margin: 0; 
-            font-size: 1.3rem; 
+            font-size: 1.6rem; 
             color: var(--platinum-bright);
             text-shadow: 0 0 10px rgba(255,255,255,0.3);
         }
 
         .song-info p { 
-            margin: 5px 0 10px; 
+            margin: 5px 0 15px; 
             color: #ddd; 
-            font-size: 0.85rem; 
+            font-size: 1rem; 
             text-transform: uppercase;
             letter-spacing: 1px;
         }
@@ -142,15 +140,15 @@
         .progress-container {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-            font-size: 0.8rem;
+            gap: 12px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
             color: var(--platinum);
         }
 
         .progress-bar {
             flex-grow: 1;
-            height: 4px;
+            height: 5px;
             background: rgba(255,255,255,0.2);
             border-radius: 5px;
             cursor: pointer;
@@ -173,13 +171,13 @@
         .btn-play {
             background: var(--platinum);
             color: black;
-            width: 50px; height: 50px; 
+            width: 65px; height: 65px; 
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            font-size: 1.4rem;
+            font-size: 1.8rem;
             transition: transform 0.2s, background 0.3s;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
@@ -190,9 +188,9 @@
         }
 
         #lyrics {
-            margin-top: 15px;
-            min-height: 40px;
-            font-size: 1rem; 
+            margin-top: 20px;
+            min-height: 50px;
+            font-size: 1.3rem; 
             font-weight: 800;
             color: #ffffff;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
@@ -204,24 +202,6 @@
             top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
             z-index: 15;
-        }
-
-        /* AJUSTES PARA MOBILE: DANDO IMPORTÂNCIA ÀS IMAGENS LATERAIS */
-        @media (max-width: 600px) {
-            :root {
-                --tamanho-mural: 130px; /* Colunas menores para caberem nas bordas */
-            }
-            .center-photo {
-                width: 180px;
-                height: 180px;
-            }
-            .spotify-player {
-                width: 220px;
-                padding: 12px;
-            }
-            #lyrics {
-                font-size: 0.9rem;
-            }
         }
     </style>
 </head>
