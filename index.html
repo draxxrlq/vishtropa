@@ -99,9 +99,10 @@
             height: 100vh;
         }
 
+        /* ALTERADO: FOTO CENTRAL MENOR */
         .center-photo {
-            width: 350px;
-            height: 350px;
+            width: 220px;
+            height: 220px;
             aspect-ratio: 1 / 1;
             object-fit: cover;
             border-radius: 20px;
@@ -110,10 +111,11 @@
             border: none;
         }
 
+        /* ALTERADO: PLAYER MENOR */
         .spotify-player {
-            width: 350px; 
+            width: 260px; 
             background: var(--player-bg);
-            padding: 20px; 
+            padding: 15px; 
             border-radius: 25px;
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
@@ -124,7 +126,7 @@
 
         .song-info h3 { 
             margin: 0; 
-            font-size: 1.6rem; 
+            font-size: 1.2rem; 
             color: var(--platinum-bright);
             text-shadow: 0 0 10px rgba(255,255,255,0.3);
         }
@@ -132,7 +134,7 @@
         .song-info p { 
             margin: 5px 0 15px; 
             color: #ddd; 
-            font-size: 1rem; 
+            font-size: 0.8rem; 
             text-transform: uppercase;
             letter-spacing: 1px;
         }
@@ -142,13 +144,13 @@
             align-items: center;
             gap: 12px;
             margin-bottom: 20px;
-            font-size: 0.9rem;
+            font-size: 0.75rem;
             color: var(--platinum);
         }
 
         .progress-bar {
             flex-grow: 1;
-            height: 5px;
+            height: 4px;
             background: rgba(255,255,255,0.2);
             border-radius: 5px;
             cursor: pointer;
@@ -171,13 +173,13 @@
         .btn-play {
             background: var(--platinum);
             color: black;
-            width: 65px; height: 65px; 
+            width: 50px; height: 50px; 
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            font-size: 1.8rem;
+            font-size: 1.4rem;
             transition: transform 0.2s, background 0.3s;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
@@ -189,8 +191,8 @@
 
         #lyrics {
             margin-top: 20px;
-            min-height: 50px;
-            font-size: 1.3rem; 
+            min-height: 40px;
+            font-size: 1rem; 
             font-weight: 800;
             color: #ffffff;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
@@ -207,7 +209,6 @@
 </head>
 <body>
 
-    <!-- Camada de símbolos no fundo -->
     <div class="background-pattern"></div>
 
     <div class="mural-container">
@@ -270,23 +271,19 @@
         const lyricsEl = document.getElementById('lyrics');
         const timeEl = document.getElementById('current-time');
 
-        // FUNÇÃO PARA VÍDEO SEMPRE PLAY (MUDO PARA FUNCIONAR AUTOMÁTICO)
         function manageVideos() {
             const videos = document.querySelectorAll('.mural-video');
             videos.forEach(v => {
-                v.muted = true; // Necessário para autoplay no Chrome/Mobile
+                v.muted = true;
                 const playPromise = v.play();
                 if (playPromise !== undefined) {
-                    playPromise.catch(() => {
-                        // Tenta tocar novamente se falhar
-                        v.play();
-                    });
+                    playPromise.catch(() => { v.play(); });
                 }
             });
         }
         
         window.addEventListener('load', manageVideos);
-        setInterval(manageVideos, 2000); // Garante que fiquem tocando
+        setInterval(manageVideos, 2000);
 
         const lyricsData = [
             { time: 0.00, text: "..." },
@@ -359,7 +356,6 @@
             if(active) lyricsEl.innerText = active.text;
         });
 
-        // CHUVA DE CORAÇÕES APENAS
         function createHearts() {
             const container = document.getElementById('hearts');
             const heart = document.createElement('div');
@@ -382,7 +378,6 @@
             setTimeout(() => heart.remove(), 7000);
         }
 
-        // Frequência bem alta (250ms = 4 corações por segundo)
         setInterval(createHearts, 250);
     </script>
 </body>
